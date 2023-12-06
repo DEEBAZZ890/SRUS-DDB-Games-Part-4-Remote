@@ -13,6 +13,10 @@ class PlayerBNode:
     def player(self) -> Player:
         return self._player
 
+    @player.setter
+    def player(self, value: Player) -> None:
+        self._player = value
+
     @property
     def left(self) -> Optional[PlayerBNode]:
         return self._left
@@ -28,3 +32,5 @@ class PlayerBNode:
     @right.setter
     def right(self, node: Optional[PlayerBNode]) -> None:
         self._right = node
+
+

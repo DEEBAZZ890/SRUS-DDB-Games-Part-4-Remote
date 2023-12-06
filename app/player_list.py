@@ -5,8 +5,8 @@ from typing import List, Optional
 
 class PlayerList:
     def __init__(self) -> None:
-        self._head = None
-        self._tail = None
+        self._head: Optional[PlayerNode] = None
+        self._tail: Optional[PlayerNode] = None
 
     @property
     def head(self) -> Optional[PlayerNode]:
@@ -30,7 +30,7 @@ class PlayerList:
 
     def to_list(self) -> List[str]:
         """Returns a string repr of the linked list for each player"""
-        my_list = []
+        my_list: List[str] = []
         current_player = self._head
         while current_player:
             my_list.append(repr(current_player))
@@ -59,7 +59,8 @@ class PlayerList:
             self._tail = new_player
         else:
             new_player.next_player = self._head
-            self._head.previous_player = new_player
+            if self._head is not None:  # added to address mypy error
+                self._head.previous_player = new_player
             self._head = new_player
 
     def insert_tail_node(self, player: Player) -> None:
@@ -69,29 +70,33 @@ class PlayerList:
             self._tail = new_player
         else:
             new_player.previous_player = self._tail
-            self._tail.next_player = new_player
+            if self._tail is not None:  # added to address mypy error
+                self._tail.next_player = new_player
             self._tail = new_player
 
     def delete_head_node(self) -> None:
         if self.is_empty():
             raise ValueError("Deletion failed. List is empty; No head node exists")
 
-        existing_head = self._head
-        self._head = existing_head.next_player
+        if self._head:  # added to address mypy error
+            existing_head = self._head
+            self._head = existing_head.next_player
 
-        if self._head is None:
-            self._tail = None
-        else:
-            self._head.previous_player = None
+            if self._head is None:
+                self._tail = None
+            else:
+                self._head.previous_player = None
 
     def delete_node_by_key_excluding_ends(self, key: str) -> None:
         """Searches from the second node to the tail and deletes the matching player by key."""
-        player_node = self._head.next_player
+        player_node = self._head.next_player if self._head else None
 
         while player_node is not None:
-            if player_node.key == key:
-                player_node.previous_player.next_player = player_node.next_player
-                player_node.next_player.previous_player = player_node.previous_player
+            if player_node.key == key:  # added to address mypy error
+                if player_node.previous_player is not None:
+                    player_node.previous_player.next_player = player_node.next_player
+                if player_node.next_player is not None:
+                    player_node.next_player.previous_player = player_node.previous_player
                 return
             player_node = player_node.next_player
         raise ValueError(f"Player with UID: {key} not found. Deletion Failed")
@@ -112,12 +117,13 @@ class PlayerList:
         if self.is_empty():
             raise ValueError(f"List is empty. Cannot delete player with key {key}.")
 
-        if self._head.key == key:
+        if self._head and self._head.key == key:
             self.delete_head_node()
             return
 
-        if self._tail.key == key:
+        if self._tail and self._tail.key == key:
             self.delete_tail_node()
             return
 
         self.delete_node_by_key_excluding_ends(key)
+

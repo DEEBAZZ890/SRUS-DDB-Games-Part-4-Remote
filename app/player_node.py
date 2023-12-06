@@ -6,8 +6,8 @@ from app.player import Player
 class PlayerNode:
     def __init__(self, player: Player) -> None:
         self._player = player
-        self._next_player = None
-        self._previous_player = None
+        self._next_player: Optional[PlayerNode] = None
+        self._previous_player: Optional[PlayerNode] = None
 
     def __str__(self) -> str:
         return f"{self.player.uid} - {self.player.name}"

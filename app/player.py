@@ -34,22 +34,34 @@ class Player:
         class_name = self.__class__.__name__
         return f'CLASS: {class_name}(UID: {self.uid!r}, NAME: {self.name!r})'
 
-    def __eq__(self, other: 'Player') -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Player):
+            return NotImplemented
         return self.score == other.score
 
-    def __ne__(self, other: 'Player') -> bool:
+    def __ne__(self, other: object) -> bool:
+        if not isinstance(other, Player):
+            return NotImplemented
         return self.score != other.score
 
-    def __lt__(self, other: 'Player') -> bool:
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Player):
+            return NotImplemented
         return self.score < other.score
 
-    def __le__(self, other: 'Player') -> bool:
+    def __le__(self, other: object) -> bool:
+        if not isinstance(other, Player):
+            return NotImplemented
         return self.score <= other.score
 
-    def __gt__(self, other: 'Player') -> bool:
+    def __gt__(self, other: object) -> bool:
+        if not isinstance(other, Player):
+            return NotImplemented
         return self.score > other.score
 
-    def __ge__(self, other: 'Player') -> bool:
+    def __ge__(self, other: object) -> bool:
+        if not isinstance(other, Player):
+            return NotImplemented
         return self.score >= other.score
 
     def add_password(self, password: str) -> None:
@@ -73,7 +85,7 @@ class Player:
             return False
 
     @staticmethod
-    def sort_players_descending(players: list['Player']):
+    def sort_players_descending(players: list['Player']) -> None:
         """Takes a list of Player objects and sorts them in descending order using an Insertion Sort Algorithm"""
         for i in range(1, len(players)):
             current_player = players[i]
