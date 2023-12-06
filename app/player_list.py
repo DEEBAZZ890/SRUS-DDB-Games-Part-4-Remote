@@ -38,7 +38,7 @@ class PlayerList:
         return my_list
 
     def display(self, forward=True) -> None:
-        """Prints the contents of the linked list in a specified order"""
+        """Prints to standard out, the contents of the linked list in a specified order"""
         if self.is_empty():
             raise ValueError("List is empty")
         if forward:
@@ -53,6 +53,7 @@ class PlayerList:
                 current = current.previous_player
 
     def insert_head_node(self, player: Player) -> None:
+        """Designates new player as new head node. If the list is empty, is designated as head and tail"""
         new_player = PlayerNode(player)
         if self.is_empty():
             self._head = new_player
@@ -64,6 +65,7 @@ class PlayerList:
             self._head = new_player
 
     def insert_tail_node(self, player: Player) -> None:
+        """Assigns given player as new tail node. If list is empty, New player is designated as head and tail"""
         new_player = PlayerNode(player)
         if self.is_empty():
             self._head = new_player
@@ -75,6 +77,7 @@ class PlayerList:
             self._tail = new_player
 
     def delete_head_node(self) -> None:
+        """Elects new head node using head.next_player attribute. If no head node exists, raises value error."""
         if self.is_empty():
             raise ValueError("Deletion failed. List is empty; No head node exists")
 
@@ -102,6 +105,10 @@ class PlayerList:
         raise ValueError(f"Player with UID: {key} not found. Deletion Failed")
 
     def delete_tail_node(self) -> None:
+        """
+           If tail doesn't exist, raises value error. Otherwise, elects previous player attribute of existing tail
+           as the new tail node
+        """
         if self._tail is None:
             raise ValueError("Deletion failed. List is empty; No tail node exists")
         else:
@@ -114,6 +121,10 @@ class PlayerList:
                 self._tail.next_player = None
 
     def delete_player_node_by_key(self, key: str) -> None:
+        """
+           Deletes a player node from the list based on the given key (uid).
+           Handles deletion of head, tail, and nodes in between.
+        """
         if self.is_empty():
             raise ValueError(f"List is empty. Cannot delete player with key {key}.")
 

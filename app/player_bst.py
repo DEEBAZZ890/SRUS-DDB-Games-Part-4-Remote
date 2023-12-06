@@ -19,6 +19,7 @@ class PlayerBST:
         return self._root is None
 
     def to_list(self) -> List[Player]:
+        """Converts BST into list of players for recursive_balance_bst method"""
         return list(self._in_order_traversal(self._root))
 
     def _in_order_traversal(self, node: Optional[PlayerBNode]):
@@ -36,7 +37,7 @@ class PlayerBST:
             self._insert_recursive(self.root, player)
 
     def _insert_recursive(self, node: PlayerBNode, player: Player) -> None:
-        """Logic for the insertion. Executes if root is not empty"""
+        """Logic for insert. Compares the key of node to be inserted against existing nodes to find insert location"""
         if player.name < node.player.name:
             if node.left is None:
                 node.left = PlayerBNode(player)
@@ -54,6 +55,7 @@ class PlayerBST:
         return self._search_recursive(self._root, name)
 
     def _search_recursive(self, node: Optional[PlayerBNode], name: str) -> Optional[Player]:
+        """Starting at root, compares keys of nodes and directs search based on key and the property of BSTs"""
         if node is None or node.player.name == name:
             return node.player if node else None
         elif name < node.player.name:
@@ -62,14 +64,16 @@ class PlayerBST:
             return self._search_recursive(node.right, name)
 
     def balance_bst(self) -> None:
+        """Converts BST to list and calls recursive balance method. If BST contains no nodes, returns none"""
         players = self.to_list()
-        self._root = self._balance_bst_recursive(players)
+        self._root = self._recursive_balance_bst(players)
 
-    def _balance_bst_recursive(self, players: List[Player]) -> Optional[PlayerBNode]:
+    def _recursive_balance_bst(self, players: List[Player]) -> Optional[PlayerBNode]:
+        """Balances BST by building left subtree, followed by right subtree from list and starts at the middle"""
         if not players:
             return None
         mid = len(players) // 2
         node = PlayerBNode(players[mid])
-        node.left = self._balance_bst_recursive(players[:mid])
-        node.right = self._balance_bst_recursive(players[mid + 1:])
+        node.left = self._recursive_balance_bst(players[:mid])
+        node.right = self._recursive_balance_bst(players[mid + 1:])
         return node
