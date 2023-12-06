@@ -23,7 +23,7 @@ class PlayerBST:
         return list(self._in_order_traversal(self._root))
 
     def _in_order_traversal(self, node: Optional[PlayerBNode]):
-        """Adopted from raf's notes in week 9. Uses yield to retrieve respective node values when traversing the tree"""
+        """Generates a sorted sequence of existing BST nodes for the to_list method using in-order traversal"""
         if node is not None:
             yield from self._in_order_traversal(node.left)
             yield node.player

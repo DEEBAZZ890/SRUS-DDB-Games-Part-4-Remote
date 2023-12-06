@@ -74,7 +74,7 @@ class Player:
             self._hashed_password = hash_value
 
     def verify_password(self, password: str) -> bool:
-        """Uses the stored hash of the player's password to verify if a password is correct"""
+        """Verifies a password by comparing the stored hash of the password to a given string. If correct"""
         if self._hashed_password is None:
             raise ValueError("No password has been set for this player")
         ph = PasswordHasher()
