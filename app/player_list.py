@@ -111,14 +111,14 @@ class PlayerList:
         """
         if self._tail is None:
             raise ValueError("Deletion failed. List is empty; No tail node exists")
-        else:
-            existing_tail = self._tail
-            self._tail = existing_tail.previous_player
 
-            if self._tail is None:
-                self._head = None
-            else:
-                self._tail.next_player = None
+        existing_tail = self._tail
+        self._tail = existing_tail.previous_player
+
+        if self._tail is None:
+            self._head = None
+        else:
+            self._tail.next_player = None
 
     def delete_player_node_by_key(self, key: str) -> None:
         """
